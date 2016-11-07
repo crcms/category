@@ -11,6 +11,7 @@ namespace CrCms\Category\Http\Controllers\Manage;
 
 use CrCms\Category\Repositories\Interfaces\CategoryRepositoryInterface;
 use CrCms\Kernel\Http\Controllers\Controller;
+use Illuminate\Support\Facades\View;
 
 class CategoryController extends Controller
 {
@@ -30,6 +31,10 @@ class CategoryController extends Controller
         parent::__construct();
 
         $this->repository = $repository;
+
+        View::share([
+            'status'=>$this->repository->status(),
+        ]);
     }
 
 

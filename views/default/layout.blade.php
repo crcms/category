@@ -8,10 +8,18 @@
     @include('kernel::style')
     @yield('style')
 </head>
-<body>
+<body id="category">
 @yield('body')
 
+@push('script')
+<script>
+    var CSRF_TOKEN = '{{csrf_token()}}';
+</script>
 @include('kernel::script')
-@yield('script')
+<script src="{{static_asset('vendor/vue-resource/vue-resource.min.js')}}"></script>
+<script src="{{static_asset('vendor/category/js/category.js')}}"></script>
+@endpush
+
+@stack('script')
 </body>
 </html>
