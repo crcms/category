@@ -2,11 +2,13 @@
 
 @section('body')
 
+
     <form action="{{route('categories.store')}}" method="post" @submit.prevent="store">
+        <input type="hidden" name="_token" value="{{csrf_token()}}">
         <div class="form-group">
             <label class="">上层分类</label>
             <select class="form-control" name="parent_id" v-model="category.parent_id">
-                <option value="0">顶层分类</option>
+                <option value="0" selected>顶层分类</option>
                 @foreach($models as $key=>$model)
                     <option value="{{$model['id']}}">
                         {{$model['delimiter']}}

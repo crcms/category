@@ -65,7 +65,7 @@ class CategoryController extends Controller
     {
         $model = $this->repository->create($this->input);
 
-        return $this->response(['success'],compact('model'));
+        return $this->response(['success'],compact('model'));//,route('categories.index')
     }
 
 
@@ -78,6 +78,17 @@ class CategoryController extends Controller
         $model = $this->repository->findById($id);
 
         return $this->view('edit',compact('model'));
+    }
+
+
+    /**
+     * @param int $id
+     * @return \Illuminate\Http\Response
+     */
+    public function show(int $id)
+    {
+        $model = $this->repository->findById($id);
+        return $this->responseData(compact('model'));
     }
 
 
