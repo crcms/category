@@ -43,7 +43,7 @@
                             <option value="destroy" ajax-url="http://localhost/3.1/public/manage/category/destroy">删除</option>
                         </select>
                     </div>
-                    <button type="button" class="btn btn-sm btn-default btn-execute">执行</button>
+                    <button type="button" class="btn btn-sm btn-success btn-execute">执行</button>
                 </form>
             </div>
         </div>
