@@ -70,4 +70,14 @@ class CategoryRepository extends Repository implements CategoryRepositoryInterfa
     }
 
 
+    /**
+     * @param array $columns
+     * @return \unknown
+     */
+    public function all(array $columns = ['*'])
+    {
+        $models = parent::all()->toArray();
+        return show_tree(array_tree($models));
+    }
+
 }

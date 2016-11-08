@@ -9,6 +9,7 @@
 namespace CrCms\Category\Http\Controllers\Manage;
 
 
+use CrCms\Category\Http\Requests\CategoryRequest;
 use CrCms\Category\Repositories\Interfaces\CategoryRepositoryInterface;
 use CrCms\Kernel\Http\Controllers\Controller;
 use Illuminate\Support\Facades\View;
@@ -34,6 +35,7 @@ class CategoryController extends Controller
 
         View::share([
             'status'=>$this->repository->status(),
+            'models'=>$this->repository->all(),
         ]);
     }
 
@@ -43,9 +45,7 @@ class CategoryController extends Controller
      */
     public function index()
     {
-        $models = $this->repository->findAllPaginate();
-
-        return $this->view('index',compact('models'));
+        return $this->view('index');
     }
 
 
@@ -61,11 +61,11 @@ class CategoryController extends Controller
     /**
      * @return \Illuminate\Http\Response|\Symfony\Component\HttpFoundation\Response
      */
-    public function store()
+    public function store(CategoryRequest $request)
     {
         $model = $this->repository->create($this->input);
 
-        return $this->response(['success'],compact($model));
+        return $this->response(['success'],compact('model'));
     }
 
 
@@ -77,7 +77,7 @@ class CategoryController extends Controller
     {
         $model = $this->repository->findById($id);
 
-        return $this->view('edit',compact($model));
+        return $this->view('edit',compact('model'));
     }
 
 
@@ -89,7 +89,7 @@ class CategoryController extends Controller
     {
         $model = $this->repository->update($this->input,$id);
 
-        return $this->response(['success'],compact($model));
+        return $this->response(['success'],compact('model'));
     }
 
 

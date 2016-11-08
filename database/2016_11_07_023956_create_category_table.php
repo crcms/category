@@ -18,7 +18,7 @@ class CreateCategoryTable extends Migration
             $table->unsignedInteger('parent_id')->default(0);
             $table->unsignedTinyInteger('status')->default(0);
             $table->string('mark',30);
-            $table->string('name',30);
+            $table->string('name',50);
             $table->string('remark',255);
 
             $table->unsignedInteger('created_at')->default(0);
