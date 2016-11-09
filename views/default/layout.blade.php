@@ -12,13 +12,65 @@
     @yield('style')
 </head>
 <body>
+<div class="container-fluid pl25 pr20 mt20">
 @yield('body')
+</div>
 @push('script')
 @include('kernel::script')
 
 {{--<script src="{{static_asset('vendor/vue-resource/vue-resource.min.js')}}"></script>--}}
 {{--<script src="{{static_asset('vendor/category/js/category.js')}}"></script>--}}
 @include('kernel::alert')
+
+<script>
+    $.ajaxSetup({
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        }
+    });
+
+    $(function(){
+        //单删除
+        $tool.ajax('.destroy-value',function($object){
+            return {
+                data:{_method:'DELETE'}
+            }
+        });
+
+        //批量操作
+        $('.btn-execute').on('click',function(){
+            if($(this).closest('form').find('select').val() === 'destroy')
+            {
+                if(!confirm('是否确定要删除？'))
+                {
+                    return false;
+                }
+
+                $.ajax({
+                    url:$(this).closest('form').find('select option:selected').attr('ajax-url'),
+                    type:'POST',
+                    dataType:'json',
+                    data:{_method:'DELETE',id:$.CR.ids(),hash:$.CR.ids('hash')},
+                    beforeSend:$.noop,
+                    error:$.noop,
+                    success:function(response, textStatus, jqXHR){
+                        $tool.message(response.message,function(){
+                            if(response.appCode == 1000)
+                            {
+                                window.location.reload();
+                            }
+                        });
+                    },
+                    complete:$.noop
+                });
+            }
+        });
+
+        //全选、全不选
+        $tool.allElection('.allElection','id[]');
+    });
+</script>
+
 @endpush
 
 @stack('script')

@@ -10,9 +10,12 @@ namespace CrCms\Category\Models;
 
 
 use CrCms\Kernel\Models\MysqlModel;
+use CrCms\Kernel\Models\Traits\SoftDeletes;
 
 class Category extends MysqlModel
 {
+
+    use SoftDeletes;
 
     protected $table = 'categories';
 

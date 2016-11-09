@@ -2,7 +2,6 @@
 
 @section('body')
 
-
     <form action="{{route('categories.store')}}" method="post" @submit.prevent="store">
         <input type="hidden" name="_token" value="{{csrf_token()}}">
         <div class="form-group">
@@ -42,5 +41,4 @@
             <button class="btn btn-success" type="submit">提交</button>
         </div>
     </form>
-
 @endsection

@@ -2,7 +2,9 @@
 
 @section('body')
 
-    <form action="{{route('categories.update',['id'=>$model->id])}}" method="post" @submit.prevent="store">
+    <form action="{{route('categories.update',['category'=>$model->id])}}" method="post" @submit.prevent="store">
+        {{method_field('put')}}
+        {{csrf_field()}}
         <div class="form-group">
             <label class="">上层分类</label>
             <select class="form-control" name="parent_id" v-model="category.parent_id">
@@ -40,7 +42,6 @@
             <button class="btn btn-success" type="submit">提交</button>
         </div>
     </form>
-@{{get(5)}}
 @endsection
 
 @push('script')
@@ -48,4 +49,4 @@
     </script>
 @endpush
 
-@stack('script');
+@stack('script')

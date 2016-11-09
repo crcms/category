@@ -31,4 +31,11 @@ interface CategoryRepositoryInterface extends RepositoryInterface
      */
     public function statusClose() : int;
 
+
+    /**
+     * @param int $id
+     * @return array
+     */
+    public function findAllChild(int $id,bool $isSelf = true) : array;
+
 }

@@ -19,7 +19,7 @@ class CategoryRequest extends KernelRequest
         return [
             'parent_id'=>['required','integer'],
             'name'=>['required','max:50'],
-            'mark'=>['required','max:30','unique:categories,mark,'.intval($this->input('id'))],
+            'mark'=>['required','max:30','unique:categories,mark,'.intval($this->segment(3))],
             'status'=>['required','integer'],
             'remark'=>['max:255'],
         ];

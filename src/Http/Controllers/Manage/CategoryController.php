@@ -65,7 +65,7 @@ class CategoryController extends Controller
     {
         $model = $this->repository->create($this->input);
 
-        return $this->response(['success'],compact('model'));//,route('categories.index')
+        return $this->response(['success'],compact('model'),route('categories.index'));//,route('categories.index')
     }
 
 
@@ -96,11 +96,11 @@ class CategoryController extends Controller
      * @param int $id
      * @return \Illuminate\Http\Response|\Symfony\Component\HttpFoundation\Response
      */
-    public function update(int $id)
+    public function update(CategoryRequest $request,int $id)
     {
         $model = $this->repository->update($this->input,$id);
 
-        return $this->response(['success'],compact('model'));
+        return $this->response(['success'],compact('model'),route('categories.index'));
     }
 
 
@@ -110,7 +110,11 @@ class CategoryController extends Controller
      */
     public function destroy(int $id)
     {
-        $this->repository->delete($id);
+        $models = $this->repository->findAllChild($id);
+
+        foreach ($models as $model) {
+            $this->repository->delete($model->id);
+        }
 
         return $this->response(['success']);
     }

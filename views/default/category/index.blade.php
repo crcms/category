@@ -3,9 +3,8 @@
 
 @section('body')
 
-    <div class="container-fluid pl25 pr20">
-        <div class="row mb20 mt20">
-            <div class="col-md-9">
+        <div class="row mb20 ">
+            <div class="col-md-8">
                 <form action="" class="form-inline" method="get">
                     <div class="form-group">
                         <input type="text" name="title" placeholder="搜索标题" class="form-control input-sm" />
@@ -32,10 +31,9 @@
                         </select>
                     </div>
                     <button type="submit" class="btn btn-sm btn-success">搜索</button>
-                    <a class="btn btn-sm btn-primary" href="http://localhost/3.1/public/manage/category/create">新增分类</a>
                 </form>
             </div>
-            <div class="col-md-3 text-right">
+            <div class="col-md-4 text-right">
                 <form class="form-inline">
                     <div class="form-group">
                         <select name="" id="" class="form-control input-sm">
@@ -44,6 +42,7 @@
                         </select>
                     </div>
                     <button type="button" class="btn btn-sm btn-success btn-execute">执行</button>
+                    <a class="btn btn-sm btn-primary" href="{{route('categories.create')}}">新增分类</a>
                 </form>
             </div>
         </div>
@@ -53,55 +52,25 @@
                 <th>名称</th>
                 <th>状态</th>
             </tr>
+            @foreach($models as $model)
             <tr>
-                <td><input type="checkbox" name="id[]" value="21" /></td>
+                <td><input type="checkbox" name="id[]" value="{{$model['id']}}" /></td>
                 <td>
                     <div class="pull-left" style="width: auto;">
-
+                        {{$model['delimiter']}}
                     </div>
                     <div class="pull-left" style="width: auto;">
-                        <p class="mb0">abcdea&nbsp;&lt;aaaaaa&gt;</p>
+                        <p class="mb0">{{$model['name']}}&nbsp;&lt;{{$model['mark']}}&gt;</p>
                         <p class="mb0">
-                            <a href="http://localhost/3.1/public/manage/category/edit/21" class="fs12">编辑</a>
-                            <a href="###" class="ml5 fs12 destroy-value" ajax-tip="是否确定要删除？" value="21" ajax-url="http://localhost/3.1/public/manage/category/destroy">删除</a>
-                            <a href="###" class="ml5 fs12">查看</a>
+                            <a href="{{route('categories.edit',['category'=>$model['id']])}}" class="fs12">编辑</a>
+                            <a href="###" class="ml5 fs12 destroy-value" ajax-tip="是否确定要删除？" value="21" ajax-url="{{route('categories.destroy',['category'=>$model['id']])}}">删除</a>
                         </p>
                     </div>
                 </td>
                 <td>开启</td>
             </tr>
-            <tr>
-                <td><input type="checkbox" name="id[]" value="16" /></td>
-                <td>
-                    <div class="pull-left" style="width: auto;">
-
-                    </div>
-                    <div class="pull-left" style="width: auto;">
-                        <p class="mb0">fda&nbsp;&lt;22&gt;</p>
-                        <p class="mb0">
-                            <a href="http://localhost/3.1/public/manage/category/edit/16" class="fs12">编辑</a>
-                            <a href="###" class="ml5 fs12 destroy-value" ajax-tip="是否确定要删除？" value="16" ajax-url="http://localhost/3.1/public/manage/category/destroy">删除</a>
-                            <a href="###" class="ml5 fs12">查看</a>
-                        </p>
-                    </div>
-                </td>
-                <td>开启</td>
-            </tr>
+            @endforeach
         </table>
-        <div>
-            <div class="page-container pull-left"></div>
-            <div class="election-operation pull-right">
-                <form class="form-inline">
-                    <div class="form-group">
-                        <select name="" id="" class="form-control input-sm">
-                            <option value="">选择批量操作</option>
-                            <option value="destroy" ajax-url="http://localhost/3.1/public/manage/category/destroy">删除</option>
-                        </select>
-                    </div>
-                    <button type="button" class="btn btn-sm btn-default btn-execute">Execute</button>
-                </form>
-            </div>
-        </div>
-    </div>
+        <div class="page-container text-right"></div>
 
 @endsection
