@@ -12,10 +12,13 @@ namespace CrCms\Category\Repositories;
 use CrCms\Category\Models\Category;
 use CrCms\Category\Repositories\Interfaces\CategoryRepositoryInterface;
 use CrCms\Kernel\Repositories\Repository;
+use CrCms\Kernel\Repositories\Traits\RepositoryTrait;
 use Illuminate\Database\Eloquent\Model;
 
-class CategoryRepository extends Repository implements CategoryRepositoryInterface
+class CategoryRepository implements CategoryRepositoryInterface
 {
+
+    use RepositoryTrait;
 
     /**
      *
@@ -42,9 +45,9 @@ class CategoryRepository extends Repository implements CategoryRepositoryInterfa
      * CategoryRepository constructor.
      * @param Category $Model
      */
-    public function __construct(Category $Model)
+    public function __construct(Category $model)
     {
-        parent::__construct($Model);
+        $this->model = $model;
     }
 
 
