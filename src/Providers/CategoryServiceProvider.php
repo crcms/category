@@ -1,43 +1,61 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: simon
- * Date: 2016/11/7
- * Time: 9:28
- */
 
 namespace CrCms\Category\Providers;
 
+use Illuminate\Support\ServiceProvider;
+use Illuminate\Support\Facades\Route;
+use Facades\{
+    Dingo\Api\Routing\Router as ApiRouter
+};
 
-use CrCms\Kernel\Providers\PackageServiceProvider;
-
-class CategoryServiceProvider extends PackageServiceProvider
+class CategoryServiceProvider extends ServiceProvider
 {
-
     /**
-     *
      * @var string
-     * @author simon
      */
     protected $namespaceName = 'category';
 
     /**
-     *
      * @var string
-     * @author simon
      */
-    protected $packagePath = __DIR__.DIRECTORY_SEPARATOR.'..'.DIRECTORY_SEPARATOR.'..'.DIRECTORY_SEPARATOR;
-
+    protected $namespace = 'CrCms\Category\Http\Controllers';
 
     /**
-     * register
+     * @var string
      */
-    public function register()
-    {
-        parent::register();
+    protected $packagePath = __DIR__ . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR;
 
-        //组件加载
-        $this->app->register(ComponentServiceProvider::class);
+    /**
+     * @return void
+     */
+    public function boot()
+    {
+        //route load
+        if (!$this->app->routesAreCached()) {
+            $this->mapWebRoutes();
+            $this->mapApiRoutes();
+        }
     }
 
+    /**
+     * @return void
+     */
+    protected function mapWebRoutes()
+    {
+//        Route::middleware('web')
+//            ->namespace($this->namespace)
+//            ->group($this->loadRoutesFrom($this->packagePath . 'routes/web.php'));
+    }
+
+    /**
+     * @return void
+     */
+    protected function mapApiRoutes()
+    {
+//        ApiRouter::version('v1', function ($apiRouter) {
+//            ApiRouter::group(['namespace' => $this->namespace], function ($apiRouter) {
+                $this->loadRoutesFrom($this->packagePath . 'routes/api.php');
+//            });
+//        });
+    }
 }
