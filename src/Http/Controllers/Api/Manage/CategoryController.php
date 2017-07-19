@@ -7,6 +7,7 @@ use App\Http\Controllers\Api\Traits\ResourceTrait;
 use App\Models\Category;
 use App\Repositories\CategoryRepository;
 use App\Transformers\CategoryTransformer;
+use CrCms\Category\Constants\CategoryConstant;
 use CrCms\Form\Form;
 
 /**
@@ -49,8 +50,8 @@ class CategoryController extends Controller
                    return [$model->id=>$model->name];
                 })->toArray();
             })->rule(['integer'])->default(0)->label('parent id');
-            $form->radio('status')->value($category->status ?? 1)->default(1)->options([
-                1=>'开启',2=>'关闭'            ])->label('status');
+            $form->radio('status')->value($category->status ?? 1)->default(1)->options(
+                CategoryConstant::constants()            )->label('status');
             $form->textarea('remark')->value($category->remark ?? null)->rule(['max:255'])->label('remark');
             $form->hidden('id')->value($category->id ?? null)->rule(['regex:/^[1-9][\d]*$/']);
         });

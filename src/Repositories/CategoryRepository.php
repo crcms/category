@@ -9,134 +9,21 @@
 namespace CrCms\Category\Repositories;
 
 
-use CrCms\Category\Models\Category;
-use CrCms\Category\Repositories\Interfaces\CategoryRepositoryInterface;
-use CrCms\Kernel\Repositories\Repository;
-use CrCms\Kernel\Repositories\Traits\RepositoryTrait;
+use App\Models\Category;
+use CrCms\Form\Contracts\Data;
+use CrCms\Form\HasData;
+use CrCms\Repository\AbstractRepository;
 use Illuminate\Database\Eloquent\Model;
 
-class CategoryRepository implements CategoryRepositoryInterface
+class CategoryRepository extends AbstractRepository implements Data
 {
+    use HasData;
 
-    use RepositoryTrait {
-        create as createRt;
-        update as updateRt;
-        all as allRt;
-    }
+    protected $guards = [];
 
-    /**
-     *
-     */
-    const STATUS_OPEN = 1;
-
-    /**
-     *
-     */
-    const STATUS_CLOSE = 2;
-
-    /**
-     *
-     */
-    const STATUS = [self::STATUS_OPEN=>'开启',self::STATUS_CLOSE=>'关闭'];
-
-
-    /**
-     * @var array
-     */
-    protected $child = [];
-
-    /**
-     * CategoryRepository constructor.
-     * @param Category $Model
-     */
-    public function __construct(Category $model)
+    public function newModel()
     {
-        $this->model = $model;
+        return app(Category::class);
     }
 
-
-    /**
-     * @return array
-     */
-    public function status() : array
-    {
-        return static::STATUS;
-    }
-
-
-    /**
-     * @return int
-     */
-    public function statusOpen() : int
-    {
-        return static::STATUS_OPEN;
-    }
-
-
-    /**
-     * @return int
-     */
-    public function statusClose() : int
-    {
-        return static::STATUS_CLOSE;
-    }
-
-
-    /**
-     * @param array $columns
-     * @return \unknown
-     */
-    public function all(array $columns = ['*'])
-    {
-        $models = $this->allRt()->toArray();
-        return show_tree(array_tree($models));
-    }
-
-
-    /**
-     * @param array $data
-     * @return Model
-     */
-    public function create(array $data) : Model
-    {
-        return $this->createRt($data);
-    }
-
-
-    /**
-     * @param array $data
-     * @param int $id
-     * @return Model
-     */
-    public function update(array $data, int $id) : Model
-    {
-        return $this->updateRt([
-            'name'=>$data['name'],
-            'mark'=>$data['mark'],
-            'status'=>$data['status'],
-            'remark'=>$data['remark'],
-        ], $id);
-    }
-
-
-    /**
-     * 查找出所有子集
-     * @param int $id
-     * @return mixed
-     */
-    public function findAllChild(int $id,bool $isSelf = true) : array
-    {
-
-        $self = $isSelf ?
-                $this->model->find($id) :
-                $this->model->where('parent_id',$id)->first();
-
-        if ($self)
-        {
-            $this->child[] = $self;
-            return $this->findAllChild($self->id,false);
-        }
-
-        return $this->child;
-    }
 }
