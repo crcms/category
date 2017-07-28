@@ -20,6 +20,11 @@ class CategoryForm extends AbstractForm
      */
     protected $repository = null;
 
+    /**
+     * CategoryForm constructor.
+     * @param Form $form
+     * @param CategoryRepository $repository
+     */
     public function __construct(Form $form,CategoryRepository $repository)
     {
         parent::__construct($form);
@@ -59,7 +64,7 @@ class CategoryForm extends AbstractForm
      */
     protected function getElementByStatus(Form $form)
     {
-        $form->radio('status')->value($this->model->status ?? 1)->default(1)->options(
+        $form->radio('status')->attributes(['v-model'=>'a.status'])->value($this->model->status ?? 1)->default(1)->options(
             CategoryConstant::constants()
         )->label('status');
     }

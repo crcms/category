@@ -22,7 +22,7 @@ class CategoryController extends Controller
         classNamePlural as parentClassNamePlural;
     }
 
-    public function __construct(CategoryForm $form,CategoryRepository $repository,CategoryTransformer $transformer)
+    public function __construct(CategoryForm $form,\CrCms\Category\Repositories\CategoryRepository $repository,CategoryTransformer $transformer)
     {
         //echo route('api.categories.create');
         parent::__construct();
@@ -41,6 +41,13 @@ class CategoryController extends Controller
     public function create(CategoryForm $categoryForm)
     {
         return $categoryForm->render();
+    }
+
+    public function store(CategoryForm $categoryForm)
+    {
+        $model = $categoryForm->save($this->repository);
+
+        dd($model);
     }
 
     protected function form(Category $category = null) : Form
