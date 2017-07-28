@@ -8,6 +8,7 @@ use App\Models\Category;
 use App\Repositories\CategoryRepository;
 use App\Transformers\CategoryTransformer;
 use CrCms\Category\Constants\CategoryConstant;
+use CrCms\Category\Forms\CategoryForm;
 use CrCms\Form\Form;
 
 /**
@@ -21,12 +22,13 @@ class CategoryController extends Controller
         classNamePlural as parentClassNamePlural;
     }
 
-    public function __construct(CategoryRepository $repository,CategoryTransformer $transformer)
+    public function __construct(CategoryForm $form,CategoryRepository $repository,CategoryTransformer $transformer)
     {
         //echo route('api.categories.create');
         parent::__construct();
         $this->repository = $repository;
         $this->transformer = $transformer;
+        $this->form = $form;
     }
 
     public function index()
@@ -36,9 +38,10 @@ class CategoryController extends Controller
         return $this->response->collection($models,$this->transformer);
     }
 
-
-
-
+    public function create(CategoryForm $categoryForm)
+    {
+        return $categoryForm->render();
+    }
 
     protected function form(Category $category = null) : Form
     {
