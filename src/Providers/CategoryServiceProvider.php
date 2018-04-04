@@ -4,58 +4,95 @@ namespace CrCms\Category\Providers;
 
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Facades\Route;
-use Facades\{
-    Dingo\Api\Routing\Router as ApiRouter
-};
 
+/**
+ * Class CategoryServiceProvider
+ * @package CrCms\category\src\Providers
+ */
 class CategoryServiceProvider extends ServiceProvider
 {
-    /**
-     * @var string
-     */
-    protected $namespaceName = 'category';
 
-    /**
-     * @var string
-     */
-    protected $namespace = 'CrCms\Category\Http\Controllers';
+    protected $basePath = __DIR__ . '/../../';
 
-    /**
-     * @var string
-     */
-    protected $packagePath = __DIR__ . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR;
+    protected $name = 'category';
 
-    /**
-     * @return void
-     */
-    public function boot()
+    protected function publish()
     {
-        //route load
-        if (!$this->app->routesAreCached()) {
-            $this->mapWebRoutes();
-            $this->mapApiRoutes();
-        }
+        $this->publishes([
+//            $this->basePath  ."config/{$this->name}.php" => config_path("{$this->name}.php"),
+//            $this->basePath.'/path/to/translations' => resource_path('lang/vendor/courier'),
+        ]);
+    }
+
+    protected function merge()
+    {
+        $this->mergeConfigFrom(
+            $this->basePath ."config/config.php", $this->name
+        );
+
+
     }
 
     /**
+     * Define the "web" routes for the application.
+     *
+     * These routes all receive session state, CSRF protection, etc.
+     *
      * @return void
      */
     protected function mapWebRoutes()
     {
-//        Route::middleware('web')
-//            ->namespace($this->namespace)
-//            ->group($this->loadRoutesFrom($this->packagePath . 'routes/web.php'));
+        $this->loadRoutesFrom(
+            $this->basePath.'routes/web.php'
+        );
+
     }
 
     /**
+     * Define the "api" routes for the application.
+     *
+     * These routes are typically stateless.
+     *
      * @return void
      */
     protected function mapApiRoutes()
     {
-//        ApiRouter::version('v1', function ($apiRouter) {
-//            ApiRouter::group(['namespace' => $this->namespace], function ($apiRouter) {
-                $this->loadRoutesFrom($this->packagePath . 'routes/api.php');
-//            });
-//        });
+        $this->loadRoutesFrom(
+            /*Route::prefix('api')
+                ->middleware('api')
+                ->group($this->basePath.'routes/api.php')*/
+            $this->basePath.'routes/api.php'
+        );
+    }
+
+    public function register()
+    {
+        $this->merge();
+
+
+    }
+
+    public function boot()
+    {
+//        require $this->basePath.'routes/graphql.php';
+        $this->publish();
+        //$this->loadRoutesFrom(__DIR__.'/routes.php');
+
+        $this->mapApiRoutes();
+
+        $this->mapWebRoutes();
+
+//        $this->loadRoutesFrom(
+           require_once $this->basePath.'routes/graphql.php';
+//        );
+
+        $this->loadMigrationsFrom($this->basePath.'database/migrations');
+
+        $this->loadTranslationsFrom($this->basePath.'resources/lang', $this->name);
+    }
+
+    protected function command()
+    {
+
     }
 }

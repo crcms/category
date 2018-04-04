@@ -2,23 +2,35 @@
 
 namespace CrCms\Category\Repositories;
 
-use App\Models\Category;
-use CrCms\Form\Contracts\Data;
-use CrCms\Form\HasData;
-use CrCms\Repository\AbstractRepository;
+use CrCms\Category\Models\ModuleModel;
+use CrCms\Foundation\App\Repositories\AbstractRepository;
 
-class CategoryRepository extends AbstractRepository implements Data
+class CategoryRepository extends AbstractRepository
 {
-    use HasData;
+    protected $guard = ['id', 'name', 'sign', 'sort', 'icon', 'status', 'parent_id'];
 
-    protected $guard = ['name','mark','status','remark','parent_id'];
-
-    protected static $events = [
-        'created'=>\CrCms\Category\Listeners\Category::class
-    ];
-
-    public function newModel()
+    public function newModel(): ModuleModel
     {
-        return app(Category::class);
+        return app(ModuleModel::class);
+    }
+
+    /**
+     * @param int $id
+     * @return int
+     */
+    public function relateDelete(int $id): int
+    {
+        $model = $this->byIntId($id);
+
+        $row = $this->delete($model->id);
+
+        $children = $this->where('parent_id', $model->id)->get();
+        if (!$children->isEmpty()) {
+            $children->each(function (ModuleModel $categoryModel) {
+                $this->relateDelete($categoryModel->id);
+            });
+        }
+
+        return $row;
     }
 }

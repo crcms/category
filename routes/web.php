@@ -1,9 +1,13 @@
 <?php
 
-use Illuminate\Support\Facades\Route;
+//Route::get('test/{name?}','CrCms\Category\Http\Controllers\TestController@test')->name('test');
+//Route::post('test/{name?}','CrCms\Category\Http\Controllers\TestController@test')->name('test.post');
+//Route::any('chat', CrCms\Category\Http\Controllers\TestController::class);
 
-Route::group(['prefix'=>'manage'],function($router){
-
-    $router->resource('categories','Manage\CategoryController');
-
+Route::get('test',function (){
+    return 'fdasfdasfdasfsafsas';
 });
+
+
+
+

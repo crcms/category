@@ -1,26 +1,25 @@
 {
     "name": "crcms/category",
-    "description": "crcms category",
-    "type": "library",
+    "description": "crcms category module",
+	"keywords": ["category", "crcms","laravel","php"],
+	"homepage": "https://github.com/crcms/category",
     "license": "MIT",
-    "homepage": "https://github.com/crcms/category",
-    "authors": [
-        {
-            "name": "simon",
-            "email": "28737164@qq.com",
-            "homepage": "http://crcms.cn"
-        }
-    ],
     "require": {
-        "php":">=7.0"
+        "php":">=7.1"
     },
-    "autoload":{
+	"autoload": {
+        "files": [
+        ],
         "psr-4": {
             "CrCms\\Category\\": "src/"
         }
     },
-    "extra": {
-        "branch-alias": {
+    "autoload-dev": {
+        "psr-4": {
+            "Tests\\": "tests/"
         }
+    },
+    "extra": {
+
     }
 }
