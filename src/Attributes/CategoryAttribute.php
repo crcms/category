@@ -42,10 +42,10 @@ class CategoryAttribute extends AbstractAttributeContract
     {
         return [
             static::KEY_STATUS => [
-                static::STATUS_UNDEFINED => 'undefined',
-                static::STATUS_ENABLE => 'enable',
-                static::STATUS_HIDDEN => 'hidden',
-                static::STATUS_DISABLE => 'disable'
+                static::STATUS_UNDEFINED => trans('category::app.status.undefined'),
+                static::STATUS_ENABLE =>  trans('category::app.status.enable'),
+                static::STATUS_HIDDEN =>  trans('category::app.status.hidden'),
+                static::STATUS_DISABLE =>  trans('category::app.status.disable')
             ]
         ];
     }

@@ -2,7 +2,6 @@
 
 namespace CrCms\Category\Http\Controllers\Api\Manage;
 
-use CrCms\Category\Attributes\ModuleAttribute;
 use CrCms\Category\Http\Requests\Category\StoreRequest;
 use CrCms\Category\Http\Requests\Category\UpdateRequest;
 use CrCms\Category\Repositories\CategoryRepository;
