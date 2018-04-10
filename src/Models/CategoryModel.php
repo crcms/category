@@ -3,7 +3,10 @@
 namespace CrCms\Category\Models;
 
 use CrCms\Foundation\App\Models\Model;
+use CrCms\Module\Models\ModuleModel;
 use Illuminate\Database\Eloquent\Relations\HasOne;
+use Illuminate\Database\Eloquent\Relations\MorphMany;
+use Illuminate\Database\Eloquent\Relations\MorphToMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 class CategoryModel extends Model
@@ -30,5 +33,9 @@ class CategoryModel extends Model
         return $this->hasOne(static::class,'parent_id','id');
     }
 
+    public function morphToManyModule(): MorphToMany
+    {//,'relation_id','id','id'
+        return $this->morphToMany(ModuleModel::class,'relation','module_relation','relation_id','module_id');
+    }
 
 }

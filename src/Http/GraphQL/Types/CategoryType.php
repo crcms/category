@@ -2,7 +2,7 @@
 
 namespace CrCms\Category\Http\GraphQL\Types;
 
-use CrCms\Category\Models\ModuleModel;
+use CrCms\Category\Models\CategoryModel;
 use CrCms\Category\Repositories\CategoryRepository;
 use CrCms\Foundation\App\Http\GraphQL\AbstractType;
 use Folklore\GraphQL\Support\Facades\GraphQL;
@@ -127,31 +127,31 @@ class CategoryType extends AbstractType
     }
 
     /**
-     * @param ModuleModel $category
+     * @param CategoryModel $category
      * @param array $args
      * @return string
      */
-    protected function resolveCreatedAtField(ModuleModel $category, array $args): string
+    protected function resolveCreatedAtField(CategoryModel $category, array $args): string
     {
         return $category->created_at->toDateTimeString();
     }
 
     /**
-     * @param ModuleModel $category
+     * @param CategoryModel $category
      * @param array $args
      * @return string
      */
-    protected function resolveUpdatedAtField(ModuleModel $category, array $args): string
+    protected function resolveUpdatedAtField(CategoryModel $category, array $args): string
     {
         return $category->updated_at->toDateTimeString();
     }
 
     /**
-     * @param ModuleModel $categoryModel
+     * @param CategoryModel $categoryModel
      * @param array $args
-     * @return null|ModuleModel
+     * @return null|CategoryModel
      */
-    protected function resolveParentIdField(ModuleModel $categoryModel, array $args)
+    protected function resolveParentIdField(CategoryModel $categoryModel, array $args)
     {
         return $categoryModel->parent_id === 0 ?
             null :

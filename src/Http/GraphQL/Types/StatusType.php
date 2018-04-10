@@ -2,7 +2,7 @@
 
 namespace CrCms\Category\Http\GraphQL\Types;
 
-use CrCms\Category\Attributes\ModuleAttribute;
+use CrCms\Category\Attributes\CategoryAttribute;
 use CrCms\Foundation\App\Http\GraphQL\AbstractType;
 
 /**
@@ -30,7 +30,7 @@ class StatusType extends AbstractType
      */
     protected function values(): array
     {
-        return collect(ModuleAttribute::getStaticTransform(ModuleAttribute::KEY_STATUS))->mapWithKeys(function ($value, $key) {
+        return collect(CategoryAttribute::getStaticTransform(CategoryAttribute::KEY_STATUS))->mapWithKeys(function ($value, $key) {
             return [$value => ['value' => $key]];
         })->toArray();
     }

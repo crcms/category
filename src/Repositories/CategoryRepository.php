@@ -2,16 +2,16 @@
 
 namespace CrCms\Category\Repositories;
 
-use CrCms\Category\Models\ModuleModel;
+use CrCms\Category\Models\CategoryModel;
 use CrCms\Foundation\App\Repositories\AbstractRepository;
 
 class CategoryRepository extends AbstractRepository
 {
     protected $guard = ['id', 'name', 'sign', 'sort', 'icon', 'status', 'parent_id'];
 
-    public function newModel(): ModuleModel
+    public function newModel(): CategoryModel
     {
-        return app(ModuleModel::class);
+        return app(CategoryModel::class);
     }
 
     /**
@@ -26,7 +26,7 @@ class CategoryRepository extends AbstractRepository
 
         $children = $this->where('parent_id', $model->id)->get();
         if (!$children->isEmpty()) {
-            $children->each(function (ModuleModel $categoryModel) {
+            $children->each(function (CategoryModel $categoryModel) {
                 $this->relateDelete($categoryModel->id);
             });
         }
