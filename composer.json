@@ -4,6 +4,7 @@
 	"keywords": ["category", "crcms","laravel","php"],
 	"homepage": "https://github.com/crcms/category",
     "license": "MIT",
+    "type": "crcms-module",
     "require": {
         "php":">=7.1"
     },
