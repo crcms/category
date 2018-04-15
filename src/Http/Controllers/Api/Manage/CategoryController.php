@@ -4,10 +4,9 @@ namespace CrCms\Category\Http\Controllers\Api\Manage;
 
 use CrCms\Category\Http\Requests\Category\StoreRequest;
 use CrCms\Category\Http\Requests\Category\UpdateRequest;
+use CrCms\Category\Http\Resources\CategoryResource;
 use CrCms\Category\Repositories\CategoryRepository;
 use CrCms\Foundation\App\Http\Controllers\Controller;
-use CrCms\Foundation\App\Http\Resources\Resource;
-use Illuminate\Support\Facades\DB;
 
 /**
  * Class CategoryController
@@ -15,30 +14,53 @@ use Illuminate\Support\Facades\DB;
  */
 class CategoryController extends Controller
 {
-
+    /**
+     * CategoryController constructor.
+     * @param CategoryRepository $categoryRepository
+     */
     public function __construct(CategoryRepository $categoryRepository)
     {
         parent::__construct();
         $this->repository = $categoryRepository;
     }
 
-
+    /**
+     * @return \Symfony\Component\HttpFoundation\Response
+     */
     public function index()
     {
-        return DB::table('categories')->get();
+        $models = $this->repository->tree();
+        return $this->response->collection($models, CategoryResource::class);
     }
 
+    /**
+     * @param StoreRequest $storeRequest
+     * @return \Symfony\Component\HttpFoundation\Response
+     */
     public function store(StoreRequest $storeRequest)
     {
         $model = $this->repository->create($storeRequest->all());
-
-        return $this->response->resource($model,Resource::class);
+        return $this->response->resource($model, CategoryResource::class, ['children']);
     }
 
+    /**
+     * @param UpdateRequest $updateRequest
+     * @param int $id
+     * @return \Symfony\Component\HttpFoundation\Response
+     */
     public function update(UpdateRequest $updateRequest, int $id)
     {
-        $model = $this->repository->update($updateRequest->all(),$id);
-        $this->repository->delete($id);
-        return $this->response->resource($model,Resource::class);
+        $model = $this->repository->update($updateRequest->all(), $id);
+        return $this->response->resource($model, CategoryResource::class, ['children']);
+    }
+
+    /**
+     * @param $id
+     * @return \Symfony\Component\HttpFoundation\Response
+     */
+    public function destroy($id)
+    {
+        $rows = $this->repository->delete($id);
+        return $this->response->noContent();
     }
 }
