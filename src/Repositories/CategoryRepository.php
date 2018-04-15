@@ -53,7 +53,7 @@ class CategoryRepository extends AbstractRepository
 
         if ($this->fireEvent('deleting', $id) === false) return false;
 
-        $models = collect([1, 2])->map(function ($id) {
+        $models = collect($this->getData())->map(function ($id) {
             return $this->getModel()->newScopedQuery()->descendantsAndSelf($id);
         })->flatten(1)->unique('id');
 
@@ -68,6 +68,25 @@ class CategoryRepository extends AbstractRepository
         $this->fireEvent('deleted', $models);
 
         return $count;
+    }
+
+    /**
+     * @param CategoryModel $categoryModel
+     * @param array $moduleIds
+     * @return array
+     */
+    public function relationModule(CategoryModel $categoryModel, array $moduleIds)
+    {
+        return $categoryModel->morphToManyModule()->sync($moduleIds);
+    }
+
+    /**
+     * @param CategoryModel $categoryModel
+     * @return int
+     */
+    public function removeRelationModule(CategoryModel $categoryModel)
+    {
+        return $categoryModel->morphToManyModule()->detach();
     }
 
     /**

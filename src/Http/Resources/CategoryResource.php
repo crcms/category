@@ -12,6 +12,11 @@ use Illuminate\Http\Resources\Json\ResourceCollection;
 class CategoryResource extends Resource
 {
     /**
+     * @var array
+     */
+    protected $defaultIncludes = ['module'];
+
+    /**
      * @param Request $request
      * @return array
      */

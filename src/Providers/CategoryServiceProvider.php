@@ -2,6 +2,8 @@
 
 namespace CrCms\Category\Providers;
 
+use CrCms\Category\Listeners\Repositories\CategoryListener;
+use CrCms\Category\Repositories\CategoryRepository;
 use CrCms\Foundation\App\Providers\ModuleServiceProvider;
 
 /**
@@ -31,5 +33,13 @@ class CategoryServiceProvider extends ModuleServiceProvider
             $this->basePath . 'config/config.php' => config_path("{$this->name}.php"),
             $this->basePath . 'resources/lang' => resource_path("lang/vendor/{$this->name}"),
         ]);
+    }
+
+    /**
+     * @return void
+     */
+    protected function repositoryListener(): void
+    {
+        CategoryRepository::observer(CategoryListener::class);
     }
 }
