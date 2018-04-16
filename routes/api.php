@@ -10,8 +10,3 @@ Route::prefix('api/v1')->namespace('CrCms\Category\Http\Controllers\Api')->middl
         Route::resource('categories', 'CategoryController');
     });
 });
-
-Route::get('abc',function(){
-   return 123;
-});
-
