@@ -36,7 +36,7 @@ class CategoryRepository extends AbstractRepository
      */
     public function tree(): Collection
     {
-        return $this->newModel()->orderBy($this->getModel()->getCreatedAtColumn(), 'desc')->all();
+        return $this->newModel()->orderBy($this->getModel()->getCreatedAtColumn(), 'desc')->get();
     }
 
     /**
