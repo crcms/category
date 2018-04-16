@@ -11,6 +11,7 @@ namespace CrCms\Category\Http\Resources;
 
 use CrCms\Category\Attributes\CategoryAttribute;
 use CrCms\Foundation\App\Http\Resources\Resource;
+use Illuminate\Support\Arr;
 
 /**
  * Class AttributeResource
@@ -18,4 +19,16 @@ use CrCms\Foundation\App\Http\Resources\Resource;
  */
 class AttributeResource extends Resource
 {
+    /**
+     * @param \Illuminate\Http\Request $request
+     * @return array
+     */
+    public function toArray($request): array
+    {
+        $all = [
+            'status' => CategoryAttribute::getStaticTransform(CategoryAttribute::KEY_STATUS),
+        ];
+
+        return $this->resource ? Arr::only($all, $this->resource) : $all;
+    }
 }

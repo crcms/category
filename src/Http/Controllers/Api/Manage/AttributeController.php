@@ -9,9 +9,8 @@
 
 namespace CrCms\Category\Http\Controllers\Api\Manage;
 
-use CrCms\Category\Attributes\CategoryAttribute;
+use CrCms\Category\Http\Resources\AttributeResource;
 use CrCms\Foundation\App\Http\Controllers\Controller;
-use Symfony\Component\Translation\Exception\NotFoundResourceException;
 
 /**
  * Class AttributeController
@@ -20,28 +19,19 @@ use Symfony\Component\Translation\Exception\NotFoundResourceException;
 class AttributeController extends Controller
 {
     /**
-     * @param null|string $type
-     * @return \Illuminate\Http\JsonResponse|\Symfony\Component\HttpFoundation\Response
+     * @return \Symfony\Component\HttpFoundation\Response
      */
-    public function postAttribute(?string $type = '')
+    public function index()
     {
-        return $this->response->array(['data' => $this->allow($type)]);
+        return $this->response->resource([], AttributeResource::class);
     }
 
     /**
-     * @param null|string $type
-     * @return array
+     * @param string $type
+     * @return \Symfony\Component\HttpFoundation\Response
      */
-    protected function allow(?string $type): array
+    public function show(string $type)
     {
-        $allows = [
-            CategoryAttribute::KEY_STATUS => CategoryAttribute::getStaticTransform(CategoryAttribute::KEY_STATUS)
-        ];
-
-        if (!empty($type) && !isset($allows[$type])) {
-            throw new NotFoundResourceException(trans('category::app.not_found'));
-        }
-
-        return empty($type) ? $allows : [$type => $allows[$type] ?? []];
+        return $this->response->resource([$type], AttributeResource::class);
     }
 }
