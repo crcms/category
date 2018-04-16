@@ -22,6 +22,12 @@
         }
     },
     "extra": {
-
+        "laravel": {
+            "providers": [
+                "CrCms\\Category\\Providers\\CategoryServiceProvider"
+            ],
+            "aliases": {
+            }
+        }
     }
 }
