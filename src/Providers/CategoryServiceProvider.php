@@ -3,7 +3,8 @@
 namespace CrCms\Category\Providers;
 
 use CrCms\Category\Listeners\Repositories\CategoryListener;
-use CrCms\Category\Repositories\CategoryRepository;
+use CrCms\Category\Repositories\Local\CategoryRepository;
+use CrCms\Category\Repositories\Contracts\CategoryRepositoryContract;
 use CrCms\Foundation\App\Providers\ModuleServiceProvider;
 
 /**
@@ -23,7 +24,7 @@ class CategoryServiceProvider extends ModuleServiceProvider
     protected $name = 'category';
 
     /**
-     *
+     * @return void
      */
     public function boot(): void
     {
@@ -40,6 +41,16 @@ class CategoryServiceProvider extends ModuleServiceProvider
      */
     protected function repositoryListener(): void
     {
-        CategoryRepository::observer(CategoryListener::class);
+        $this->app->make(CategoryRepositoryContract::class)::observer(CategoryListener::class);
+    }
+
+    /**
+     * @return void
+     */
+    public function register(): void
+    {
+        parent::register();
+
+        $this->app->bind(CategoryRepositoryContract::class, CategoryRepository::class);
     }
 }

@@ -2,11 +2,11 @@
 
 namespace CrCms\Category\Http\Controllers\Api\Manage;
 
-use function Couchbase\defaultDecoder;
 use CrCms\Category\Http\Requests\Category\StoreRequest;
 use CrCms\Category\Http\Requests\Category\UpdateRequest;
 use CrCms\Category\Http\Resources\CategoryResource;
 use CrCms\Category\Repositories\CategoryRepository;
+use CrCms\Category\Repositories\Contracts\CategoryRepositoryContract;
 use CrCms\Foundation\App\Http\Controllers\Controller;
 use CrCms\Module\Models\ModuleModel;
 use CrCms\Module\Repositories\ModuleRepository;
@@ -21,7 +21,7 @@ class CategoryController extends Controller
      * CategoryController constructor.
      * @param CategoryRepository $categoryRepository
      */
-    public function __construct(CategoryRepository $categoryRepository)
+    public function __construct(CategoryRepositoryContract $categoryRepository)
     {
         parent::__construct();
         $this->repository = $categoryRepository;
