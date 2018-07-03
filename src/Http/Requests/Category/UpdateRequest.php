@@ -18,5 +18,4 @@ class UpdateRequest extends FormRequest
         return $rules;
     }
 
-
 }
